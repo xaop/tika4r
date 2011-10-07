@@ -2,8 +2,8 @@ module Tika4R
   
   def self.extract_content(filename)
     load_rjb
-    file = Rjb.import("java.io.File")
-    tika = Rjb.import("org.apache.tika.Tika").new(filename)
+    file = Rjb.import("java.io.File").new(filename)
+    tika = Rjb.import("org.apache.tika.Tika")
 
     # Even if we could avoid loading everything here by parsing to a Reader this 
     # still wouldn't help us as the Rsolr plugin builds XML by using Builder, and
