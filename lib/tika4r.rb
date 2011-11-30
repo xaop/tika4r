@@ -13,20 +13,18 @@ module Tika4R
       # it needs to be a full string by then (i.e. the XML this will be in is built
       # in memory anyway)
       tika.new._invoke("parseToString", "Ljava.io.File;", file)
+    rescue TikaException => e
+      raise Tika4R::Exception.new(e)
     rescue StandardError => e
-      if e.message =~ /TikaException/
-        raise Tika4R::Exception.new(e)
-      else
-        # Trying to make Java errors reraisable, even if they don't involve Tika
-        begin
-          e.to_str
-        rescue StandardError
-          def e.to_str
-            to_s
-          end
+      # Trying to make Java errors reraisable, even if they don't involve Tika
+      begin
+        e.to_str
+      rescue StandardError
+        def e.to_str
+          to_s
         end
-        raise e
       end
+      raise e
     end
   end
   
