@@ -1,3 +1,5 @@
+require 'tika4r/exceptions.rb'
+
 module Tika4R
   
   def self.extract_content(filename)
@@ -12,15 +14,19 @@ module Tika4R
       # in memory anyway)
       tika.new._invoke("parseToString", "Ljava.io.File;", file)
     rescue StandardError => e
-      # Trying to make TikaExceptions reraisable (also does it for all Java errors)
-      begin
-        e.to_str
-      rescue StandardError
-        def e.to_str
-          to_s
+      if e.message =~ /TikaException/
+        raise Tika4R::Exception.new(e)
+      else
+        # Trying to make Java errors reraisable, even if they don't involve Tika
+        begin
+          e.to_str
+        rescue StandardError
+          def e.to_str
+            to_s
+          end
         end
+        raise e
       end
-      raise e
     end
   end
   
