@@ -24,7 +24,7 @@ module Tika4R
 
   def self.load_rjb
     if require 'rjb'
-      Rjb.load(File.join(File.dirname(__FILE__), "..", "vendor", "tika-app-0.9.jar"), ["-Djava.awt.headless=true"])
+      Rjb.load(File.join(File.dirname(__FILE__), "..", "vendor", "tika-app-1.0.jar"), ["-Djava.awt.headless=true"])
     end
   end
 
