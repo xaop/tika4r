@@ -15,16 +15,8 @@ module Tika4R
       tika.new._invoke("parseToString", "Ljava.io.File;", file)
     rescue TikaException => e
       raise Tika4R::Exception.new(e)
-    rescue StandardError => e
-      # Trying to make Java errors reraisable, even if they don't involve Tika
-      begin
-        e.to_str
-      rescue StandardError
-        def e.to_str
-          to_s
-        end
-      end
-      raise e
+    ensure
+      GC.start
     end
   end
   
