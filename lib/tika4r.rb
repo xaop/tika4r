@@ -14,7 +14,7 @@ module Tika4R
       # it needs to be a full string by then (i.e. the XML this will be in is built
       # in memory anyway)
       tika.new._invoke("parseToString", "Ljava.io.File;", file)
-    rescue tikaException => e
+    rescue TikaException => e
       raise Tika4R::Exception.new(e)
     ensure
       GC.start
